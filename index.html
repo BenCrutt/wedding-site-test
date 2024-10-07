@@ -5,46 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wedding Site</title>
     <style>
-        /* Make sure body and html occupy full height */
-        html, body {
+        /* Global Styles */
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Disable scrolling but allow zoom */
+        html, body {
             height: 100%;
-            overflow: hidden;
+            overflow: hidden; /* Disable scrolling */
             font-family: Arial, sans-serif;
+        }
+
+        /* Ensure the body and the container fill the full height */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
         }
 
         /* Video background styles */
         #bg-video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            min-width: 100%;
-            min-height: 100%;
-            z-index: -1;
-            object-fit: cover;
-            filter: blur(10px) grayscale(50%); /* Greyish blur effect */
-        }
-
-        /* Center the image without scaling */
-        .centered-image {
-            display: none; /* Hide image initially */
-            position: absolute;
+            position: fixed;
             top: 50%;
             left: 50%;
+            min-width: 100%;
+            min-height: 100%;
             transform: translate(-50%, -50%);
-            z-index: 1;
+            z-index: -1;
+            object-fit: cover;
+            filter: blur(10px) grayscale(50%);
+            pointer-events: none; /* Prevent interactions with the video */
         }
 
-        /* Set a fixed size for the image */
-        .centered-image img {
-            width: 500px; /* Set your preferred size */
-            height: auto;
-        }
-
-        /* Password Screen Container (greyish blur background) */
+        /* Password Screen Container (blur background fully covers screen) */
         .password-screen {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
@@ -53,14 +52,15 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 2; /* Show above everything */
+            z-index: 2;
         }
 
-        /* Password Box Styling (integrated look) */
+        /* Password Box Styling (integrated look, properly centered) */
         .password-box {
             text-align: center;
             background: none;
             padding: 30px;
+            backdrop-filter: blur(10px); /* Ensure blur effect on background */
         }
 
         /* Input field and label/button styling */
@@ -69,10 +69,10 @@
             padding: 10px;
             width: 200px;
             margin-top: 10px;
-            background-color: rgba(150, 150, 150, 0.8); /* Slightly lighter than background */
+            background-color: rgba(150, 150, 150, 0.8);
             border: 1px solid rgba(80, 80, 80, 0.5);
             border-radius: 5px;
-            color: #dcdcdc; /* Light gray text */
+            color: #dcdcdc;
             transition: border 0.3s ease;
         }
 
@@ -86,8 +86,8 @@
             padding: 10px;
             width: 220px;
             margin-top: 20px;
-            background-color: #4b2e1d; /* Dark brown color */
-            color: #dcdcdc; /* Light gray text */
+            background-color: #4b2e1d;
+            color: #dcdcdc;
             border: none;
             border-radius: 5px;
             cursor: pointer;
@@ -95,31 +95,60 @@
 
         /* Button hover effect */
         .password-box button:hover {
-            background-color: #3d2618; /* Slightly darker brown */
+            background-color: #3d2618;
         }
 
         .password-box label {
-            color: #4b2e1d; /* Dark brown color */
+            color: #4b2e1d;
             font-size: 18px;
-            font-family: 'Georgia', 'Times New Roman', serif; /* Elegant font */
+            font-family: 'Georgia', 'Times New Roman', serif;
         }
 
         /* Note styling (appears from the beginning, slightly smaller, multiline) */
         .password-box .note-message {
-            color: #4b2e1d; /* Dark brown color */
-            font-family: 'Georgia', 'Times New Roman', serif; /* Elegant font */
-            font-size: 16px; /* Slightly smaller */
+            color: #4b2e1d;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 16px;
             margin-top: 10px;
-            line-height: 1.4; /* Line spacing */
-            white-space: pre-line; /* Preserve line breaks */
+            line-height: 1.4;
+            white-space: pre-line;
         }
 
+        /* Centered image, properly aligned */
+        .centered-image {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            display: none; /* Hidden initially */
+        }
+
+        .centered-image img {
+            width: 500px;
+            height: auto;
+        }
+
+        /* Ensure the content is fully centered on all screens */
+        @media only screen and (max-width: 768px) {
+            .centered-image img {
+                width: 90%; /* Scale the image on smaller screens */
+            }
+
+            .password-box input {
+                width: 80%;
+            }
+
+            .password-box button {
+                width: 90%;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <!-- Background video with mobile compatibility -->
-    <video id="bg-video" autoplay muted loop playsinline poster="https://storage.googleapis.com/weddingsitebenbucket/fallback-image.jpg">
+    <!-- Background video without controls -->
+    <video id="bg-video" autoplay muted loop playsinline>
         <source src="https://storage.googleapis.com/weddingsitebenbucket/Untitled%20(1920%20x%201080%20px).mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>

@@ -1,1 +1,159 @@
-Hello World
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Site</title>
+    <style>
+        /* Make sure body and html occupy full height */
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Video background styles */
+        #bg-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -1;
+            object-fit: cover;
+            filter: blur(10px) grayscale(50%); /* Greyish blur effect */
+        }
+
+        /* Center the image without scaling */
+        .centered-image {
+            display: none; /* Hide image initially */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+
+        /* Set a fixed size for the image */
+        .centered-image img {
+            width: 500px; /* Set your preferred size */
+            height: auto;
+        }
+
+        /* Password Screen Container (greyish blur background) */
+        .password-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(100, 100, 100, 0.5); /* Greyish blur overlay */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2; /* Show above everything */
+        }
+
+        /* Password Box Styling (integrated look) */
+        .password-box {
+            text-align: center;
+            background: none;
+            padding: 30px;
+        }
+
+        /* Input field and label/button styling */
+        .password-box input {
+            font-size: 18px;
+            padding: 10px;
+            width: 200px;
+            margin-top: 10px;
+            background-color: rgba(150, 150, 150, 0.8); /* Slightly lighter than background */
+            border: 1px solid rgba(80, 80, 80, 0.5);
+            border-radius: 5px;
+            color: #dcdcdc; /* Light gray text */
+            transition: border 0.3s ease;
+        }
+
+        .password-box input:focus {
+            outline: none;
+            border: 2px solid #4b2e1d; /* Dark brown border when selected */
+        }
+
+        .password-box button {
+            font-size: 16px;
+            padding: 10px;
+            width: 220px;
+            margin-top: 20px;
+            background-color: #4b2e1d; /* Dark brown color */
+            color: #dcdcdc; /* Light gray text */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Button hover effect */
+        .password-box button:hover {
+            background-color: #3d2618; /* Slightly darker brown */
+        }
+
+        .password-box label {
+            color: #4b2e1d; /* Dark brown color */
+            font-size: 18px;
+            font-family: 'Georgia', 'Times New Roman', serif; /* Elegant font */
+        }
+
+        /* Note styling (appears from the beginning, slightly smaller, multiline) */
+        .password-box .note-message {
+            color: #4b2e1d; /* Dark brown color */
+            font-family: 'Georgia', 'Times New Roman', serif; /* Elegant font */
+            font-size: 16px; /* Slightly smaller */
+            margin-top: 10px;
+            line-height: 1.4; /* Line spacing */
+            white-space: pre-line; /* Preserve line breaks */
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Background video without controls -->
+    <video id="bg-video" autoplay muted loop>
+        <source src="https://storage.googleapis.com/weddingsitebenbucket/Untitled%20(1920%20x%201080%20px).mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Centered image with fixed size -->
+    <div id="main-image" class="centered-image">
+        <img src="https://storage.googleapis.com/weddingsitebenbucket/Copy%20of%20Cream%20and%20Brown%20Photographic%20Beauty%20Site%20Launch%20Website%20(1920%20x%201080%20px).png" alt="Centered Image">
+    </div>
+
+    <!-- Password Screen -->
+    <div id="password-screen" class="password-screen">
+        <div class="password-box">
+            <label for="password-input">Password:</label><br>
+            <input type="text" id="password-input" placeholder="Enter password" autocomplete="off"><br>
+            <button onclick="checkPassword()">Submit</button>
+            <p class="note-message">Find the password<br>on your Save the Date.</p>
+        </div>
+    </div>
+
+    <script>
+        function checkPassword() {
+            const passwordInput = document.getElementById('password-input').value;
+            
+            // Simple password check (for security, use server-side verification in a real app)
+            const correctPassword = '2025';
+
+            if (passwordInput === correctPassword) {
+                // Remove the password screen, reveal the image, and remove blur on video
+                document.getElementById('password-screen').style.display = 'none';
+                document.getElementById('bg-video').style.filter = 'none'; // Remove blur
+                document.getElementById('main-image').style.display = 'block'; // Show image
+            }
+        }
+    </script>
+
+</body>
+</html>

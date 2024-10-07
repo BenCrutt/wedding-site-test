@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"> <!-- Prevent zooming out -->
     <title>Wedding Site</title>
     <style>
         /* Global Styles */
@@ -12,7 +12,7 @@
             box-sizing: border-box;
         }
 
-        /* Disable scrolling but allow zoom */
+        /* Disable scrolling and ensure zooming only in */
         html, body {
             height: 100%;
             overflow: hidden; /* Disable scrolling */
@@ -32,8 +32,8 @@
             position: fixed;
             top: 50%;
             left: 50%;
-            min-width: 100%;
-            min-height: 100%;
+            width: 100%;
+            height: 100%;
             transform: translate(-50%, -50%);
             z-index: -1;
             object-fit: cover;
@@ -125,14 +125,15 @@
         }
 
         .centered-image img {
-            width: 500px;
-            height: auto;
+            height: 100vh; /* Image height aligned with video height */
+            width: auto; /* Maintain aspect ratio */
         }
 
         /* Ensure the content is fully centered on all screens */
         @media only screen and (max-width: 768px) {
             .centered-image img {
-                width: 90%; /* Scale the image on smaller screens */
+                height: 100vh; /* Keep image height aligned on smaller screens */
+                width: auto;
             }
 
             .password-box input {
@@ -149,8 +150,7 @@
 
     <!-- Background video without controls -->
     <video id="bg-video" autoplay muted loop playsinline>
-        <source src="https://raw.githubusercontent.com/BenCrutt/BenCrutt.github.io/main/Untitled (1920 x 1080 px).mp4
-" type="video/mp4">
+        <source src="https://raw.githubusercontent.com/BenCrutt/BenCrutt.github.io/main/Untitled (1920 x 1080 px).mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
 

@@ -118,8 +118,8 @@
 </head>
 <body>
 
-    <!-- Background video without controls -->
-    <video id="bg-video" autoplay muted loop>
+    <!-- Background video with mobile compatibility -->
+    <video id="bg-video" autoplay muted loop playsinline poster="https://storage.googleapis.com/weddingsitebenbucket/fallback-image.jpg">
         <source src="https://storage.googleapis.com/weddingsitebenbucket/Untitled%20(1920%20x%201080%20px).mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
@@ -140,9 +140,13 @@
     </div>
 
     <script>
+        // Ensure video is muted and plays inline on mobile
+        const video = document.getElementById('bg-video');
+        video.muted = true; // Ensure the video is muted for autoplay on mobile
+
         function checkPassword() {
             const passwordInput = document.getElementById('password-input').value;
-            
+
             // Simple password check (for security, use server-side verification in a real app)
             const correctPassword = '2025';
 

@@ -1,53 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Our Wedding</title>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"> <!-- Prevent zooming out -->
+    <title>Wedding Site</title>
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Disable scrolling and ensure zooming only in */
+        html, body {
+            height: 100%;
+            overflow: hidden; /* Disable scrolling */
+            font-family: Arial, sans-serif;
+        }
+
+        /* Ensure the body and the container fill the full height */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Video background styles */
+        #bg-video {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            object-fit: cover;
+            filter: blur(10px) grayscale(50%);
+            pointer-events: none; /* Prevent interactions with the video */
+        }
+
+        /* Password Screen Container (blur background fully covers screen) */
+        .password-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(100, 100, 100, 0.5); /* Greyish blur overlay */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+        }
+
+        /* Password Box Styling (integrated look, properly centered) */
+        .password-box {
+            text-align: center;
+            background: none;
+            padding: 30px;
+            backdrop-filter: blur(10px); /* Ensure blur effect on background */
+        }
+
+        /* Input field and label/button styling */
+        .password-box input {
+            font-size: 18px;
+            padding: 10px;
+            width: 200px;
+            margin-top: 10px;
+            background-color: rgba(150, 150, 150, 0.8);
+            border: 1px solid rgba(80, 80, 80, 0.5);
+            border-radius: 5px;
+            color: #dcdcdc;
+            transition: border 0.3s ease;
+        }
+
+        .password-box input:focus {
+            outline: none;
+            border: 2px solid #4b2e1d; /* Dark brown border when selected */
+        }
+
+        .password-box button {
+            font-size: 16px;
+            padding: 10px;
+            width: 220px;
+            margin-top: 20px;
+            background-color: #4b2e1d;
+            color: #dcdcdc;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Button hover effect */
+        .password-box button:hover {
+            background-color: #3d2618;
+        }
+
+        .password-box label {
+            color: #4b2e1d;
+            font-size: 18px;
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        /* Note styling (appears from the beginning, slightly smaller, multiline) */
+        .password-box .note-message {
+            color: #4b2e1d;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 16px;
+            margin-top: 10px;
+            line-height: 1.4;
+            white-space: pre-line;
+        }
+
+        /* Centered image, properly aligned */
+        .centered-image {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            display: none; /* Hidden initially */
+        }
+
+        .centered-image img {
+            height: 90vh; /* Image is 10% smaller than viewport height */
+            width: auto; /* Maintain aspect ratio */
+        }
+
+        /* Ensure the content is fully centered on all screens */
+        @media only screen and (max-width: 768px) {
+            .centered-image img {
+                height: 90vh; /* Keep image height aligned on smaller screens */
+                width: auto;
+            }
+
+            .password-box input {
+                width: 80%;
+            }
+
+            .password-box button {
+                width: 90%;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div id="password-screen">
-        <label for="pwd">Enter Password:</label><br>
-        <input type="text" id="pwd" placeholder="Enter password"/>
-        <button onclick="checkPassword()">Submit</button>
-        <p>Find the password on your Save the Date.</p>
-    </div>
-    <div id="overlay" style="display:none;">
-        <h1>Our Wedding</h1>
-        <div id="countdown"></div>
-        <div id="weather-info">Loading weather...</div>
-    </div>
-    <div id="instructions" style="display:none;">
-        Click and drag to look around.<br>
-        Rotate to find information panels floating in the scene.
+
+    <!-- Background video without controls -->
+    <video id="bg-video" autoplay muted loop playsinline>
+        <source src="https://raw.githubusercontent.com/BenCrutt/BenCrutt.github.io/main/Untitled (1920 x 1080 px).mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Centered image with fixed size -->
+    <div id="main-image" class="centered-image">
+        <img src="https://raw.githubusercontent.com/BenCrutt/BenCrutt.github.io/main/Copy of Cream and Brown Photographic Beauty Site Launch Website (1920 x 1080 px).png" alt="Centered Image">
     </div>
 
-    <div class="info-panel" id="panel-itinerary">
-        <h2>Itinerary</h2>
-        <p><strong>4:00 PM</strong> - Ceremony at the vineyard</p>
-        <p><strong>5:00 PM</strong> - Cocktail Hour</p>
-        <p><strong>6:30 PM</strong> - Dinner & Dancing</p>
+    <!-- Password Screen -->
+    <div id="password-screen" class="password-screen">
+        <div class="password-box">
+            <label for="password-input">Password:</label><br>
+            <input type="text" id="password-input" placeholder="Enter password" autocomplete="off"><br>
+            <button onclick="checkPassword()">Submit</button>
+            <p class="note-message">Find the password<br>on your Save the Date.</p>
+        </div>
     </div>
 
-    <div class="info-panel" id="panel-lodging">
-        <h2>Where to Stay</h2>
-        <p>Recommended hotels:<br>- The Vineyard Inn<br>- Santa Ynez Resort<br>- The Cottage Suites</p>
-    </div>
+    <script>
+        // Ensure video is muted and plays inline on mobile
+        const video = document.getElementById('bg-video');
+        video.muted = true; // Ensure the video is muted for autoplay on mobile
 
-    <div class="info-panel" id="panel-attire">
-        <h2>Attire</h2>
-        <p>Semi-formal. Neutrals, creams, tans, and subtle greens. Adults only, please.</p>
-    </div>
+        function checkPassword() {
+            const passwordInput = document.getElementById('password-input').value;
 
-    <div class="info-panel" id="panel-location">
-        <h2>Location</h2>
-        <p>Sunstone Winery<br>125 Refugio Rd, Santa Ynez, CA</p>
-    </div>
+            // Simple password check (for security, use server-side verification in a real app)
+            const correctPassword = '2025';
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r152/three.min.js" integrity="sha512-7P5RNn5cZvcaU4Qmb9RdqdCTDhQ1ri8FrnQp8AHPY54/lLsLZ15DQ88fPlLb1Q41+wGagQOrBeQM6EznfZ98jA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="libs/GLTFLoader.js"></script>
-    <script src="libs/html2canvas.min.js"></script>
-    <script src="script.js"></script>
+            if (passwordInput === correctPassword) {
+                // Remove the password screen, reveal the image, and remove blur on video
+                document.getElementById('password-screen').style.display = 'none';
+                document.getElementById('bg-video').style.filter = 'none'; // Remove blur
+                document.getElementById('main-image').style.display = 'block'; // Show image
+            }
+        }
+    </script>
+
 </body>
 </html>

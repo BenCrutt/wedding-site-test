@@ -15,7 +15,7 @@
         /* Body and Font */
         html, body {
             height: 100%;
-            overflow: hidden; /* Disable scrolling initially */
+            overflow: auto; /* Enable scrolling */
             font-family: 'Georgia', 'Times New Roman', serif;
             color: #4b2e1d; /* Dark brown text color */
             background-color: #f5f5f5;
@@ -26,84 +26,12 @@
             flex-direction: column;
             position: relative;
             align-items: center;
-            justify-content: center;
-        }
-
-        /* Password Screen */
-        .password-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(100, 100, 100, 0.5); /* Greyish overlay */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 2;
-        }
-
-        .password-box {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-
-        .password-box input {
-            font-size: 18px;
-            padding: 10px;
-            width: 200px;
-            margin-top: 10px;
-            background-color: rgba(240, 240, 240, 0.9);
-            border: 1px solid rgba(80, 80, 80, 0.5);
-            border-radius: 5px;
-            color: #4b2e1d;
-            transition: border 0.3s ease;
-        }
-
-        .password-box input:focus {
-            outline: none;
-            border: 2px solid #4b2e1d; /* Dark brown border when selected */
-        }
-
-        .password-box button {
-            font-size: 16px;
-            padding: 10px;
-            width: 220px;
-            margin-top: 20px;
-            background-color: #4b2e1d;
-            color: #ffffff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .password-box button:hover {
-            background-color: #3d2618;
-        }
-
-        .password-box label {
-            color: #4b2e1d;
-            font-size: 20px;
-            font-family: 'Georgia', 'Times New Roman', serif;
-        }
-
-        .password-box .note-message {
-            color: #4b2e1d;
-            font-family: 'Georgia', 'Times New Roman', serif;
-            font-size: 16px;
-            margin-top: 10px;
-            line-height: 1.4;
-            white-space: pre-line;
+            justify-content: flex-start;
+            padding: 20px;
         }
 
         /* Admin Content */
         .admin-content {
-            display: none; /* Hidden initially */
             width: 90%;
             max-width: 1000px;
             background-color: #ffffff;
@@ -154,16 +82,6 @@
 </head>
 <body>
 
-    <!-- Password Screen -->
-    <div id="password-screen" class="password-screen">
-        <div class="password-box">
-            <label for="admin-password-input">Admin Password:</label><br>
-            <input type="password" id="admin-password-input" placeholder="Enter admin password"><br>
-            <button onclick="checkAdminPassword()">Submit</button>
-            <p class="note-message">Enter the admin password to view RSVPs.</p>
-        </div>
-    </div>
-
     <!-- Admin Content -->
     <div class="admin-content">
         <h1>RSVP Submissions</h1>
@@ -206,27 +124,9 @@
         const db = firebase.firestore();
     </script>
 
-    <!-- Handle Admin Password and Fetch RSVPs -->
+    <!-- Fetch and Display RSVPs -->
     <script>
-        function checkAdminPassword() {
-            const adminPasswordInput = document.getElementById('admin-password-input').value.trim();
-
-            // Define admin password
-            const adminPassword = '2025admin'; // Change this to your actual admin password
-
-            if (adminPasswordInput === adminPassword) {
-                // Hide the password screen and show admin content
-                document.getElementById('password-screen').style.display = 'none';
-                document.querySelector('.admin-content').style.display = 'block';
-                document.body.style.overflow = 'auto'; // Enable scrolling
-
-                // Fetch and display RSVPs
-                fetchRSVPs();
-            } else {
-                alert('Incorrect admin password. Please try again.');
-            }
-        }
-
+        // Function to fetch RSVPs from Firestore and populate the table
         function fetchRSVPs() {
             const tableBody = document.getElementById('rsvp-table-body');
 
@@ -269,6 +169,11 @@
                     alert('There was an error fetching the RSVPs. Please try again later.');
                 });
         }
+
+        // Fetch RSVPs when the page loads
+        window.onload = function() {
+            fetchRSVPs();
+        };
     </script>
 
 </body>

@@ -12,67 +12,56 @@
             box-sizing: border-box;
         }
 
-        /* Disable scrolling and ensure zooming only in */
+        /* Body and Font */
         html, body {
             height: 100%;
-            overflow: hidden; /* Disable scrolling */
-            font-family: Arial, sans-serif;
+            overflow: hidden; /* Disable scrolling initially */
+            font-family: 'Georgia', 'Times New Roman', serif;
+            color: #4b2e1d; /* Dark brown text color */
+            background-image: url('sunstone.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
-        /* Ensure the body and the container fill the full height */
         body {
             display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column;
             position: relative;
         }
 
-        /* Video background styles */
-        #bg-video {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            width: 100%;
-            height: 100%;
-            transform: translate(-50%, -50%);
-            z-index: -1;
-            object-fit: cover;
-            filter: blur(10px) grayscale(50%);
-            pointer-events: none; /* Prevent interactions with the video */
-        }
-
-        /* Password Screen Container (blur background fully covers screen) */
+        /* Password Screen */
         .password-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(100, 100, 100, 0.5); /* Greyish blur overlay */
+            background-color: rgba(100, 100, 100, 0.5); /* Greyish overlay */
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 2;
         }
 
-        /* Password Box Styling (integrated look, properly centered) */
         .password-box {
             text-align: center;
-            background: none;
+            background: rgba(255, 255, 255, 0.8);
             padding: 30px;
-            backdrop-filter: blur(10px); /* Ensure blur effect on background */
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
 
-        /* Input field and label/button styling */
         .password-box input {
             font-size: 18px;
             padding: 10px;
             width: 200px;
             margin-top: 10px;
-            background-color: rgba(150, 150, 150, 0.8);
+            background-color: rgba(240, 240, 240, 0.9);
             border: 1px solid rgba(80, 80, 80, 0.5);
             border-radius: 5px;
-            color: #dcdcdc;
+            color: #4b2e1d;
             transition: border 0.3s ease;
         }
 
@@ -87,24 +76,23 @@
             width: 220px;
             margin-top: 20px;
             background-color: #4b2e1d;
-            color: #dcdcdc;
+            color: #ffffff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
-        /* Button hover effect */
         .password-box button:hover {
             background-color: #3d2618;
         }
 
         .password-box label {
             color: #4b2e1d;
-            font-size: 18px;
+            font-size: 20px;
             font-family: 'Georgia', 'Times New Roman', serif;
         }
 
-        /* Note styling (appears from the beginning, slightly smaller, multiline) */
         .password-box .note-message {
             color: #4b2e1d;
             font-family: 'Georgia', 'Times New Roman', serif;
@@ -114,50 +102,392 @@
             white-space: pre-line;
         }
 
-        /* Centered image, properly aligned */
-        .centered-image {
+        /* Navigation Bar */
+        .navbar {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            top: 20px;
+            right: 40px;
+            display: flex;
+            gap: 15px;
             z-index: 1;
-            display: none; /* Hidden initially */
         }
 
-        .centered-image img {
-            height: 90vh; /* Image is 10% smaller than viewport height */
-            width: auto; /* Maintain aspect ratio */
+        .navbar button {
+            background-color: rgba(75, 46, 29, 0.8); /* Dark brown with some transparency */
+            color: #ffffff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
         }
 
-        /* Ensure the content is fully centered on all screens */
+        .navbar button:hover {
+            background-color: #3d2618;
+        }
+
+        /* Main Content */
+        .main-content {
+            overflow-y: auto; /* Enable scrolling after password is entered */
+            height: 100vh;
+            scroll-behavior: smooth;
+        }
+
+        /* Section Styles */
+        section {
+            position: relative;
+            padding: 80px 20px;
+            min-height: 100vh;
+            background-color: transparent;
+        }
+
+        /* Adding Semi-Transparent White Box Behind Specific Text */
+        .text-box {
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        /* Hotels Section */
+        #hotels {
+            background-color: transparent;
+        }
+
+        .hotels-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px; /* Increased gap for more space between hotels */
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hotel-card {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .hotel-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .hotel-card img {
+            width: 100%;
+            height: 90%;
+            object-fit: cover;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+
+        /* Remove underline from hotel names and keep them as links */
+        .hotel-card a {
+            text-decoration: none;
+            color: inherit; /* Inherit color from parent */
+        }
+
+        .hotel-name {
+            padding: 10px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: #4b2e1d;
+            height: 10%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Timeline Section */
+        #timeline {
+            background-color: transparent;
+        }
+
+        .timeline-container {
+            display: flex;
+            flex-direction: column;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 40px;
+        }
+
+        .timeline-day {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .timeline-day h2 {
+            margin-bottom: 10px;
+            color: #3d2618;
+        }
+
+        .timeline-event {
+            margin-left: 20px;
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .timeline-event::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 5px;
+            width: 10px;
+            height: 10px;
+            background-color: #4b2e1d;
+            border-radius: 50%;
+        }
+
+        /* Timeline Desktop Layout */
+        @media (min-width: 768px) {
+            .timeline-container {
+                flex-direction: row;
+            }
+
+            .timeline-day {
+                flex: 1;
+            }
+        }
+
+        /* Dress Code Section */
+        #dress-code {
+            background-color: transparent;
+        }
+
+        .dress-code-container {
+            display: flex;
+            flex-direction: column;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            gap: 20px;
+        }
+
+        .tab-button {
+            padding: 10px 20px;
+            background-color: #4b2e1d;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .tab-button.active, .tab-button:hover {
+            background-color: #3d2618;
+        }
+
+        .tab-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Dress Code Desktop Layout */
+        @media (min-width: 768px) {
+            .tab-content {
+                flex-direction: row;
+            }
+        }
+
+        .dress-code-description {
+            flex: 1;
+            font-size: 18px;
+            line-height: 1.6;
+            color: #4b2e1d;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .dress-code-description h2 {
+            margin-bottom: 10px;
+        }
+
+        .dress-code-carousel {
+            flex: 1;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dress-code-carousel img {
+            width: auto;
+            height: 400px; /* Increased height for larger images */
+            max-width: 100%;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        .carousel-button {
+            position: absolute;
+            background-color: rgba(75, 46, 29, 0.8);
+            color: #ffffff;
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-button:hover {
+            background-color: #3d2618;
+        }
+
+        .prev-btn {
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .next-btn {
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* RSVP Section */
+        #rsvp {
+            background-color: transparent;
+        }
+
+        .rsvp-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .rsvp-container h2 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #4b2e1d;
+        }
+
+        .rsvp-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .rsvp-form label {
+            font-size: 16px;
+            color: #4b2e1d;
+        }
+
+        .rsvp-form input[type="text"], .rsvp-form select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            color: #4b2e1d;
+        }
+
+        .rsvp-form .nights {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .rsvp-form .nights label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 16px;
+        }
+
+        .rsvp-form button {
+            padding: 12px;
+            background-color: #4b2e1d;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .rsvp-form button:hover {
+            background-color: #3d2618;
+        }
+
+        /* Responsive Styles */
         @media only screen and (max-width: 768px) {
-            .centered-image img {
-                height: 90vh; /* Keep image height aligned on smaller screens */
-                width: auto;
+            .navbar {
+                right: 20px;
+                top: 10px;
+                gap: 10px;
             }
 
-            .password-box input {
-                width: 80%;
+            .navbar button {
+                padding: 8px 12px;
+                font-size: 14px;
             }
 
-            .password-box button {
-                width: 90%;
+            .password-box {
+                padding: 20px;
+            }
+
+            .password-box input, .password-box button {
+                width: 180px;
+            }
+
+            .hotels-container {
+                grid-template-columns: 1fr;
+            }
+
+            .hotel-card img {
+                height: 90%;
+            }
+
+            .timeline-container {
+                flex-direction: column;
+            }
+
+            .timeline-day {
+                width: 100%;
+            }
+
+            .tab-content {
+                flex-direction: column;
+            }
+
+            .dress-code-carousel img {
+                height: 300px; /* Adjusted height for mobile */
+            }
+
+            /* Adjust text-box padding on smaller screens */
+            .text-box {
+                padding: 3px 8px;
             }
         }
     </style>
 </head>
 <body>
-
-    <!-- Background video without controls -->
-    <video id="bg-video" autoplay muted loop playsinline>
-        <source src="https://raw.githubusercontent.com/BenCrutt/BenCrutt.github.io/main/Untitled (1920 x 1080 px).mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-
-    <!-- Centered image with fixed size -->
-    <div id="main-image" class="centered-image">
-        <img src="https://raw.githubusercontent.com/BenCrutt/BenCrutt.github.io/main/Copy of Cream and Brown Photographic Beauty Site Launch Website (1920 x 1080 px).png" alt="Centered Image">
-    </div>
 
     <!-- Password Screen -->
     <div id="password-screen" class="password-screen">
@@ -169,23 +499,265 @@
         </div>
     </div>
 
-    <script>
-        // Ensure video is muted and plays inline on mobile
-        const video = document.getElementById('bg-video');
-        video.muted = true; // Ensure the video is muted for autoplay on mobile
+    <!-- Navigation Bar -->
+    <div class="navbar" style="display: none;">
+        <button onclick="scrollToSection('hotels')">Hotels</button>
+        <button onclick="scrollToSection('timeline')">Timeline</button>
+        <button onclick="scrollToSection('dress-code')">Dress Code</button>
+        <button onclick="scrollToSection('rsvp')">RSVP</button>
+    </div>
 
+    <!-- Main Content -->
+    <div class="main-content" style="display: none;">
+
+        <!-- Hotels Section -->
+        <section id="hotels">
+            <h1 style="text-align: center; margin-bottom: 40px; color: #4b2e1d;"><span class="text-box">Accommodations</span></h1>
+            <div class="hotels-container">
+                <!-- Hotel Card 1 -->
+                <div class="hotel-card">
+                    <a href="https://www.hotelynez.com/" target="_blank">
+                        <img src="hotelsantaynez.jpg" alt="Hotel Santa Ynez">
+                        <div class="hotel-name">Hotel Santa Ynez</div>
+                    </a>
+                </div>
+                <!-- Hotel Card 2 -->
+                <div class="hotel-card">
+                    <a href="https://www.hotelynez.com/" target="_blank">
+                        <img src="hotelsantaynez.jpg" alt="Hotel Santa Ynez">
+                        <div class="hotel-name">Hotel Santa Ynez</div>
+                    </a>
+                </div>
+                <!-- Hotel Card 3 -->
+                <div class="hotel-card">
+                    <a href="https://www.hotelynez.com/" target="_blank">
+                        <img src="hotelsantaynez.jpg" alt="Hotel Santa Ynez">
+                        <div class="hotel-name">Hotel Santa Ynez</div>
+                    </a>
+                </div>
+                <!-- Hotel Card 4 -->
+                <div class="hotel-card">
+                    <a href="https://www.hotelynez.com/" target="_blank">
+                        <img src="hotelsantaynez.jpg" alt="Hotel Santa Ynez">
+                        <div class="hotel-name">Hotel Santa Ynez</div>
+                    </a>
+                </div>
+                <!-- Hotel Card 5 -->
+                <div class="hotel-card">
+                    <a href="https://www.hotelynez.com/" target="_blank">
+                        <img src="hotelsantaynez.jpg" alt="Hotel Santa Ynez">
+                        <div class="hotel-name">Hotel Santa Ynez</div>
+                    </a>
+                </div>
+                <!-- Hotel Card 6 -->
+                <div class="hotel-card">
+                    <a href="https://www.hotelynez.com/" target="_blank">
+                        <img src="hotelsantaynez.jpg" alt="Hotel Santa Ynez">
+                        <div class="hotel-name">Hotel Santa Ynez</div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Timeline Section -->
+        <section id="timeline">
+            <h1 style="text-align: center; margin-bottom: 40px; color: #4b2e1d;"><span class="text-box">Wedding Timeline</span></h1>
+            <div class="timeline-container">
+                <!-- Friday, June 6 -->
+                <div class="timeline-day">
+                    <h2><span class="text-box">Friday, June 6</span></h2>
+                    <div class="timeline-event">
+                        <strong><span class="text-box">Reception:</span></strong> 5:00 PM at Sunstone Winery
+                    </div>
+                </div>
+                <!-- Saturday, June 7 -->
+                <div class="timeline-day">
+                    <h2><span class="text-box">Saturday, June 7</span></h2>
+                    <div class="timeline-event">
+                        <strong><span class="text-box">Ceremony:</span></strong> 3:00 PM at Sunstone Winery
+                    </div>
+                    <div class="timeline-event">
+                        <strong><span class="text-box">Cocktail Hour:</span></strong> 4:00 PM at Sunstone Winery
+                    </div>
+                    <div class="timeline-event">
+                        <strong><span class="text-box">Dinner & Party:</span></strong> 5:00 PM at Sunstone Winery
+                    </div>
+                    <div class="timeline-event">
+                        <strong><span class="text-box">After Party:</span></strong> 10:00 PM - 2:00 AM at Mattie's Tavern
+                    </div>
+                </div>
+                <!-- Sunday, June 8 -->
+                <div class="timeline-day">
+                    <h2><span class="text-box">Sunday, June 8</span></h2>
+                    <div class="timeline-event">
+                        <strong><span class="text-box">Brunch:</span></strong> 11:00 AM at Mattie's Tavern
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dress Code Section -->
+        <section id="dress-code">
+            <h1 style="text-align: center; margin-bottom: 40px; color: #4b2e1d;"><span class="text-box">Dress Code</span></h1>
+            <div class="dress-code-container">
+                <div class="tabs">
+                    <button class="tab-button active" onclick="openTab('men')">Men</button>
+                    <button class="tab-button" onclick="openTab('women')">Women</button>
+                </div>
+                <div id="men" class="tab-content">
+                    <div class="dress-code-carousel">
+                        <button class="carousel-button prev-btn" onclick="prevImage('men')">&#8592;</button> <!-- Left arrow -->
+                        <img src="mensdress1.jpg" alt="Formal Suit 1" class="men">
+                        <button class="carousel-button next-btn" onclick="nextImage('men')">&#8594;</button> <!-- Right arrow -->
+                    </div>
+                    <div class="dress-code-description">
+                        <h2><span class="text-box">Men</span></h2>
+                        <p><span class="text-box">Please wear formal suit attire. Neutral colors such as black, navy, grey, and beige are encouraged to complement the Italian theme.</span></p>
+                    </div>
+                </div>
+                <div id="women" class="tab-content" style="display: none;">
+                    <div class="dress-code-carousel">
+                        <button class="carousel-button prev-btn" onclick="prevImage('women')">&#8592;</button> <!-- Left arrow -->
+                        <img src="womensdress1.jpg" alt="Formal Dress 1" class="women">
+                        <button class="carousel-button next-btn" onclick="nextImage('women')">&#8594;</button> <!-- Right arrow -->
+                    </div>
+                    <div class="dress-code-description">
+                        <h2><span class="text-box">Women</span></h2>
+                        <p><span class="text-box">Formal dresses are requested. Please choose elegant gowns in neutral tones such as white, cream, olive, or dark green to match our flowy Italian theme.</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RSVP Section -->
+        <section id="rsvp">
+            <h1 style="text-align: center; margin-bottom: 40px; color: #4b2e1d;"><span class="text-box">RSVP</span></h1>
+            <div class="rsvp-container">
+                <h2><span class="text-box">We'd Love to Celebrate with You!</span></h2>
+                <form class="rsvp-form">
+                    <label for="name"><span class="text-box">Your Name:</span></label>
+                    <input type="text" id="name" name="name" placeholder="Enter your name" required>
+
+                    <label for="party"><span class="text-box">Party Members:</span></label>
+                    <input type="text" id="party" name="party" placeholder="e.g., 2 Adults, 1 Child" required>
+
+                    <label><span class="text-box">Which nights will you be attending?</span></label>
+                    <div class="nights">
+                        <label><input type="checkbox" name="nights" value="Friday"> Friday, June 6</label>
+                        <label><input type="checkbox" name="nights" value="Saturday"> Saturday, June 7</label>
+                        <label><input type="checkbox" name="nights" value="Sunday"> Sunday, June 8</label>
+                    </div>
+
+                    <button type="submit">Submit RSVP</button>
+                </form>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // Password Protection
         function checkPassword() {
-            const passwordInput = document.getElementById('password-input').value;
+            const passwordInput = document.getElementById('password-input').value.trim();
 
             // Simple password check (for security, use server-side verification in a real app)
             const correctPassword = '2025';
 
             if (passwordInput === correctPassword) {
-                // Remove the password screen, reveal the image, and remove blur on video
+                // Remove the password screen, reveal the navbar and main content, enable scrolling
                 document.getElementById('password-screen').style.display = 'none';
-                document.getElementById('bg-video').style.filter = 'none'; // Remove blur
-                document.getElementById('main-image').style.display = 'block'; // Show image
+                document.querySelector('.navbar').style.display = 'flex';
+                document.querySelector('.main-content').style.display = 'block';
+                document.body.style.overflow = 'auto'; // Enable scrolling
+            } else {
+                alert('Incorrect password. Please try again.');
             }
+        }
+
+        // Smooth Scrolling to Sections
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if(section){
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Dress Code Tabs
+        function openTab(tabName) {
+            const tabs = document.getElementsByClassName('tab-content');
+            const buttons = document.getElementsByClassName('tab-button');
+
+            for (let i = 0; i < tabs.length; i++) {
+                tabs[i].style.display = 'none';
+            }
+
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove('active');
+            }
+
+            document.getElementById(tabName).style.display = 'flex';
+            event.currentTarget.classList.add('active');
+        }
+
+        // RSVP Form Submission (Frontend Only)
+        document.querySelector('.rsvp-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Collect form data
+            const name = document.getElementById('name').value.trim();
+            const party = document.getElementById('party').value.trim();
+            const nights = Array.from(document.querySelectorAll('input[name="nights"]:checked')).map(el => el.value);
+
+            if(name === '' || party === '' || nights.length === 0){
+                alert('Please fill out all fields and select at least one night.');
+                return;
+            }
+
+            // For now, just display the collected data
+            alert(`Thank you, ${name}! Your RSVP has been received.\n\nParty: ${party}\nNights Attending: ${nights.join(', ')}`);
+
+            // Reset the form
+            document.querySelector('.rsvp-form').reset();
+        });
+
+        // Dress Code Carousel Functionality
+        const dressCodeImages = {
+            men: [
+                "mensdress1.jpg",
+                "mensdress2.jpg",
+                "mensdress3.jpg"
+            ],
+            women: [
+                "womensdress1.jpg",
+                "womensdress2.jpg",
+                "womensdress3.jpg"
+            ]
+        };
+
+        let currentImageIndex = {
+            men: 0,
+            women: 0
+        };
+
+        function showImage(category) {
+            const imgElement = document.querySelector(`.${category}`);
+            imgElement.src = dressCodeImages[category][currentImageIndex[category]];
+        }
+
+        function nextImage(category) {
+            currentImageIndex[category]++;
+            if(currentImageIndex[category] >= dressCodeImages[category].length){
+                currentImageIndex[category] = 0;
+            }
+            showImage(category);
+        }
+
+        function prevImage(category) {
+            currentImageIndex[category]--;
+            if(currentImageIndex[category] < 0){
+                currentImageIndex[category] = dressCodeImages[category].length - 1;
+            }
+            showImage(category);
         }
     </script>
 

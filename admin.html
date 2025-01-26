@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - RSVP List</title>
+    <style>
+        /* Basic Styling */
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background-image: url('sunstone.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #4b2e1d;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 900px;
+            margin: auto;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Login Form */
+        #login-form, #admin-content {
+            display: none;
+            text-align: center;
+        }
+
+        #login-form input {
+            padding: 10px;
+            margin: 10px 0;
+            width: 80%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #login-form button {
+            padding: 10px 20px;
+            background-color: #4b2e1d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #login-form button:hover {
+            background-color: #3d2618;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4b2e1d;
+            color: white;
+        }
+
+        /* Responsive Table */
+        @media (max-width: 768px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+
+            th {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+
+            tr {
+                margin-bottom: 15px;
+            }
+
+            td {
+                border: none;
+                position: relative;
+                padding-left: 50%;
+            }
+
+            td::before {
+                position: absolute;
+                top: 12px;
+                left: 12px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                font-weight: bold;
+            }
+
+            /* Labels for mobile */
+            td:nth-of-type(1)::before { content: "Name"; }
+            td:nth-of-type(2)::before { content: "Party Members"; }
+            td:nth-of-type(3)::before { content: "Nights Attending"; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Login Form -->
+        <div id="login-form">
+            <h1>Admin Login</h1>
+            <input type="text" id="admin-password" placeholder="Enter admin password"><br>
+            <button onclick="loginAdmin()">Login</button>
+        </div>
+
+        <!-- Admin Content -->
+        <div id="admin-content">
+            <h1>RSVP List</h1>
+            <table id="rsvp-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Party Members</th>
+                        <th>Nights Attending</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- RSVP Entries Will Be Inserted Here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Your Sheet.best API Endpoint for GET requests
+        const SHEET_BEST_GET_ENDPOINT = 'https://api.sheetbest.com/sheets/83c7b9f1-2fe6-48d7-98a6-5b2b86cfb0cc';
+
+        const loginForm = document.getElementById('login-form');
+        const adminContent = document.getElementById('admin-content');
+        const rsvpTableBody = document.querySelector('#rsvp-table tbody');
+
+        // Show login form initially
+        loginForm.style.display = 'block';
+
+        function loginAdmin() {
+            const passwordInput = document.getElementById('admin-password').value.trim();
+            const adminPassword = '2025admin';
+
+            if(passwordInput === adminPassword){
+                loginForm.style.display = 'none';
+                adminContent.style.display = 'block';
+                fetchRSVPs();
+            } else {
+                alert('Incorrect password. Please try again.');
+            }
+        }
+
+        function fetchRSVPs() {
+            fetch(SHEET_BEST_GET_ENDPOINT)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(entry => {
+                        const row = document.createElement('tr');
+
+                        const nameCell = document.createElement('td');
+                        nameCell.textContent = entry.Name || 'N/A';
+                        row.appendChild(nameCell);
+
+                        const partyCell = document.createElement('td');
+                        partyCell.textContent = entry["Party Members"] || 'N/A';
+                        row.appendChild(partyCell);
+
+                        const nightsCell = document.createElement('td');
+                        nightsCell.textContent = entry["Nights Attending"] || 'N/A';
+                        row.appendChild(nightsCell);
+
+                        rsvpTableBody.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error("Error fetching RSVPs:", error);
+                    alert('There was an error fetching the RSVPs. Please try again later.');
+                });
+        }
+    </script>
+
+</body>
+</html>

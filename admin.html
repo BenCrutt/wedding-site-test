@@ -3,195 +3,269 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - RSVP List</title>
+    <title>Admin - Wedding RSVP</title>
     <style>
-        /* Basic Styling */
-        body {
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body and Font */
+        html, body {
+            height: 100%;
+            overflow: hidden; /* Disable scrolling initially */
             font-family: 'Georgia', 'Times New Roman', serif;
-            background-image: url('sunstone.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            color: #4b2e1d;
-            padding: 20px;
+            color: #4b2e1d; /* Dark brown text color */
+            background-color: #f5f5f5;
         }
 
-        .container {
-            background-color: rgba(255, 255, 255, 0.95);
-            padding: 20px;
+        body {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Password Screen */
+        .password-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(100, 100, 100, 0.5); /* Greyish overlay */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .password-box {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            backdrop-filter: blur(10px);
             border-radius: 10px;
-            max-width: 900px;
-            margin: auto;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
 
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        /* Login Form */
-        #login-form, #admin-content {
-            display: none;
-            text-align: center;
-        }
-
-        #login-form input {
+        .password-box input {
+            font-size: 18px;
             padding: 10px;
-            margin: 10px 0;
-            width: 80%;
-            border: 1px solid #ccc;
+            width: 200px;
+            margin-top: 10px;
+            background-color: rgba(240, 240, 240, 0.9);
+            border: 1px solid rgba(80, 80, 80, 0.5);
             border-radius: 5px;
+            color: #4b2e1d;
+            transition: border 0.3s ease;
         }
 
-        #login-form button {
-            padding: 10px 20px;
+        .password-box input:focus {
+            outline: none;
+            border: 2px solid #4b2e1d; /* Dark brown border when selected */
+        }
+
+        .password-box button {
+            font-size: 16px;
+            padding: 10px;
+            width: 220px;
+            margin-top: 20px;
             background-color: #4b2e1d;
-            color: white;
+            color: #ffffff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
-        #login-form button:hover {
+        .password-box button:hover {
             background-color: #3d2618;
         }
 
-        table {
+        .password-box label {
+            color: #4b2e1d;
+            font-size: 20px;
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        .password-box .note-message {
+            color: #4b2e1d;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 16px;
+            margin-top: 10px;
+            line-height: 1.4;
+            white-space: pre-line;
+        }
+
+        /* Admin Content */
+        .admin-content {
+            display: none; /* Hidden initially */
+            width: 90%;
+            max-width: 1000px;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            overflow-y: auto;
+            max-height: 90vh;
+        }
+
+        .admin-content h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #4b2e1d;
+        }
+
+        .rsvp-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
         }
 
-        table, th, td {
+        .rsvp-table th, .rsvp-table td {
             border: 1px solid #ddd;
-        }
-
-        th, td {
             padding: 12px;
             text-align: left;
         }
 
-        th {
+        .rsvp-table th {
             background-color: #4b2e1d;
-            color: white;
+            color: #ffffff;
         }
 
-        /* Responsive Table */
-        @media (max-width: 768px) {
-            table, thead, tbody, th, td, tr {
-                display: block;
+        .rsvp-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* Responsive Styles */
+        @media only screen and (max-width: 768px) {
+            .admin-content {
+                padding: 20px;
             }
 
-            th {
-                position: absolute;
-                top: -9999px;
-                left: -9999px;
+            .rsvp-table th, .rsvp-table td {
+                padding: 8px;
             }
-
-            tr {
-                margin-bottom: 15px;
-            }
-
-            td {
-                border: none;
-                position: relative;
-                padding-left: 50%;
-            }
-
-            td::before {
-                position: absolute;
-                top: 12px;
-                left: 12px;
-                width: 45%;
-                padding-right: 10px;
-                white-space: nowrap;
-                font-weight: bold;
-            }
-
-            /* Labels for mobile */
-            td:nth-of-type(1)::before { content: "Name"; }
-            td:nth-of-type(2)::before { content: "Party Members"; }
-            td:nth-of-type(3)::before { content: "Nights Attending"; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- Login Form -->
-        <div id="login-form">
-            <h1>Admin Login</h1>
-            <input type="text" id="admin-password" placeholder="Enter admin password"><br>
-            <button onclick="loginAdmin()">Login</button>
-        </div>
-
-        <!-- Admin Content -->
-        <div id="admin-content">
-            <h1>RSVP List</h1>
-            <table id="rsvp-table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Party Members</th>
-                        <th>Nights Attending</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- RSVP Entries Will Be Inserted Here -->
-                </tbody>
-            </table>
+    <!-- Password Screen -->
+    <div id="password-screen" class="password-screen">
+        <div class="password-box">
+            <label for="admin-password-input">Admin Password:</label><br>
+            <input type="password" id="admin-password-input" placeholder="Enter admin password"><br>
+            <button onclick="checkAdminPassword()">Submit</button>
+            <p class="note-message">Enter the admin password to view RSVPs.</p>
         </div>
     </div>
 
+    <!-- Admin Content -->
+    <div class="admin-content">
+        <h1>RSVP Submissions</h1>
+        <table class="rsvp-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Party Members</th>
+                    <th>Nights Attending</th>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody id="rsvp-table-body">
+                <!-- RSVP entries will be populated here -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <!-- Firebase Firestore -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
+    <!-- Initialize Firebase -->
     <script>
-        // Your Sheet.best API Endpoint for GET requests
-        const SHEET_BEST_GET_ENDPOINT = 'https://api.sheetbest.com/sheets/83c7b9f1-2fe6-48d7-98a6-5b2b86cfb0cc';
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBDaBBU_SDS-rE76c4DXUqwiRxB86OdlbQ",
+            authDomain: "wedding-rsvp-a9a4e.firebaseapp.com",
+            projectId: "wedding-rsvp-a9a4e",
+            storageBucket: "wedding-rsvp-a9a4e.appspot.com",
+            messagingSenderId: "88041972815",
+            appId: "1:88041972815:web:1011259cb7d8af1da5f63a",
+            measurementId: "G-ZTXWN6MZJ7"
+        };
 
-        const loginForm = document.getElementById('login-form');
-        const adminContent = document.getElementById('admin-content');
-        const rsvpTableBody = document.querySelector('#rsvp-table tbody');
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+    </script>
 
-        // Show login form initially
-        loginForm.style.display = 'block';
+    <!-- Handle Admin Password and Fetch RSVPs -->
+    <script>
+        function checkAdminPassword() {
+            const adminPasswordInput = document.getElementById('admin-password-input').value.trim();
 
-        function loginAdmin() {
-            const passwordInput = document.getElementById('admin-password').value.trim();
-            const adminPassword = '2025admin';
+            // Define admin password
+            const adminPassword = '2025admin'; // Change this to your actual admin password
 
-            if(passwordInput === adminPassword){
-                loginForm.style.display = 'none';
-                adminContent.style.display = 'block';
+            if (adminPasswordInput === adminPassword) {
+                // Hide the password screen and show admin content
+                document.getElementById('password-screen').style.display = 'none';
+                document.querySelector('.admin-content').style.display = 'block';
+                document.body.style.overflow = 'auto'; // Enable scrolling
+
+                // Fetch and display RSVPs
                 fetchRSVPs();
             } else {
-                alert('Incorrect password. Please try again.');
+                alert('Incorrect admin password. Please try again.');
             }
         }
 
         function fetchRSVPs() {
-            fetch(SHEET_BEST_GET_ENDPOINT)
-                .then(response => response.json())
-                .then(data => {
-                    data.forEach(entry => {
+            const tableBody = document.getElementById('rsvp-table-body');
+
+            db.collection('rsvps').orderBy('Timestamp', 'desc').get()
+                .then((querySnapshot) => {
+                    querySnapshot.forEach((doc) => {
+                        const rsvp = doc.data();
                         const row = document.createElement('tr');
 
+                        // Name
                         const nameCell = document.createElement('td');
-                        nameCell.textContent = entry.Name || 'N/A';
+                        nameCell.textContent = rsvp.Name || 'N/A';
                         row.appendChild(nameCell);
 
+                        // Party Members
                         const partyCell = document.createElement('td');
-                        partyCell.textContent = entry["Party Members"] || 'N/A';
+                        partyCell.textContent = rsvp.PartyMembers || 'N/A';
                         row.appendChild(partyCell);
 
+                        // Nights Attending
                         const nightsCell = document.createElement('td');
-                        nightsCell.textContent = entry["Nights Attending"] || 'N/A';
+                        nightsCell.textContent = rsvp.NightsAttending || 'N/A';
                         row.appendChild(nightsCell);
 
-                        rsvpTableBody.appendChild(row);
+                        // Timestamp
+                        const timestampCell = document.createElement('td');
+                        if (rsvp.Timestamp) {
+                            const date = rsvp.Timestamp.toDate();
+                            timestampCell.textContent = date.toLocaleString();
+                        } else {
+                            timestampCell.textContent = 'N/A';
+                        }
+                        row.appendChild(timestampCell);
+
+                        tableBody.appendChild(row);
                     });
                 })
-                .catch(error => {
-                    console.error("Error fetching RSVPs:", error);
+                .catch((error) => {
+                    console.error('Error fetching RSVPs:', error);
                     alert('There was an error fetching the RSVPs. Please try again later.');
                 });
         }
